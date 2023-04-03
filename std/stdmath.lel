@@ -1,24 +1,39 @@
-= __fac__ ~+ -- ~+ 1 > ? __fac__ * .
-= __tri__ ~+ -- ~+ 1 > ? __tri__ +	.
-= __efc__ ~+ -- ~+ 1 > ? __efc__ ^ .
+/* loops for factorials and triangular */
+= fac ~+ -- ~+ 1 > ? fac * .
+= tri ~+ -- ~+ 1 > ? tri + .
+= efc ~+ -- ~+ 1 > ? efc ^ .
 
+/* 
 = fac 1 <> __fac__ .
 = tri 0 <> __tri__ .
 = efc 1 <> __efc__ .
+*/
 = dfc fac fac .
 
+/* linking this functions to operators */
 = *! fac .
 = !! dfc .
 = +! tri .
 = ^! efc .
 
-= sqrt 1 <> / ^ .
-= sq 2 sqrt .
+/* get root from power */
+= grf 1 ./ ^ .
+/* get square root */
+= sq 2 grf .
+/* floor operator */
 = _ fl .
 
+/* used for conditions to negate something */
 = __neg__ 0 -- * .
 = neg ~+ > 0 ? __neg__ .
 = pos ~+ < 0 ? __neg__ .
+
+/* alias asb to pos */
 = abs pos .
 
-= fib 1.6180339887498949 pow 0.44721359549995682 * _ .
+/* linking abs and neg to operators */
+= =+ abs .
+= =- neg .
+
+/* get bth fibanacci number */
+= fib 1.6180339887498949 .^ 0.44721359549995682 * _ .

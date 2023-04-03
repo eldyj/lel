@@ -61,7 +61,17 @@ quote(const str& s)
 str
 unquote(const str& s)
 {
-	return s.substr(1,s.length()-2);
+	str r = s;
+	r.erase(r.length()-1,1);
+	r.erase(0,1);
+	//std::cout << "unquote log: '" << s << "' '" << r << "'" << std::endl;
+	return r;
+}
+
+str
+to_lelstr(const str& s)
+{
+	return is_quoted(s) ? s : quote(s);
 }
 
 bool
@@ -201,10 +211,10 @@ eval_op(const str& op)
 void
 eval_string(const str& s)
 {
-	std::cout << "eval-str log: " << s << std::endl;
+	//std::cout << "eval-str log: " << s << std::endl;
 	str_vec v = split(s);
 	for (const str& op: v) {
-		std::cout << "eval-op log: " << op << std::endl;
+		//std::cout << "eval-op log: " << op << std::endl;
 		eval_op(op);
 	}
 }
@@ -227,8 +237,8 @@ main(int argc, char* argv[])
 {
 #include"fns.list"
 	load_file("std/stdop.lel");
-	//load_file("std/stdfn.lel");
-	//load_file("std/stdmath.lel");
+	load_file("std/stdfn.lel");
+	load_file("std/stdmath.lel");
 	load_file(std::string(argv[1]));
 	return 0;
 }

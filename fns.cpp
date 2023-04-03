@@ -19,6 +19,60 @@ eq()
 	//std::cout<<"eq was called"<<std::endl;
 }
 
+/*void
+gt()
+{
+	str s1 = spop();
+	str s2 = spop();
+	if (!is_float(s1)) {
+		std::cerr << "first argument to gt must be number" << std::endl;
+	} else if (!is_float(s2)) {
+		std::cerr << "second argument to gt must be number" << std::endl;
+	}	else {
+		if (s1.find('.') != std::string::npos || s2.find('.') != std::string::npos) {
+			spush(std::to_string(int(std::stof(s1) > std::stof(s2))));
+		} else {
+			spush(std::to_string(int(std::stoi(s1) > std::stoi(s2))));
+		}
+	}
+	//std::cout<<"gt was called"<<std::endl;
+}
+
+void
+lt()
+{
+	str s1 = spop();
+	str s2 = spop();
+	if (!is_float(s1)) {
+		std::cerr << "first argument to lt must be number" << std::endl;
+	} else if (!is_float(s2)) {
+		std::cerr << "second argument to lt must be number" << std::endl;
+	}	else {
+		if (s1.find('.') != std::string::npos || s2.find('.') != std::string::npos) {
+			spush(std::to_string(int(std::stof(s1) < std::stof(s2))));
+		} else {
+			spush(std::to_string(int(std::stoi(s1) > std::stoi(s2))));
+		}
+	}
+	//std::cout<<"lt was called"<<std::endl;
+}
+
+void
+no()
+{
+	str s1 = spop();
+	if (!is_float(s1)) {
+		std::cerr << "first argument to no must be number" << std::endl;
+	} else {
+		if (s1.find('.') != std::string::npos) {
+			spush(std::to_string(int(!std::stof(s1))));
+		} else {
+			spush(std::to_string(int(!std::stoi(s1))));
+		}
+	}
+	//std::cout<<"no was called"<<std::endl;
+}*/
+
 void
 gt()
 {
@@ -82,7 +136,11 @@ sum()
 	if (!is_float(s1) || !is_float(s2)) {
 		std::cerr << "mathematical operation with non-number" << std::endl;
 	} else {
-		spush(std::to_string(std::stof(s1) + std::stof(s2)));
+		if (s1.find('.') != std::string::npos || s2.find('.') != std::string::npos) {
+			spush(std::to_string(std::stof(s1) + std::stof(s2)));
+		} else {
+			spush(std::to_string(std::stoll(s1) + std::stoll(s2)));
+		}
 	}
 	//std::cout<<"sum was called"<<std::endl;
 }
@@ -96,7 +154,12 @@ sub()
 	if (!is_float(s1) || !is_float(s2)) {
 		std::cerr << "mathematical operation with non-number" << std::endl;
 	} else {
-		spush(std::to_string(std::stof(s1) - std::stof(s2)));
+		if (s1.find('.') != std::string::npos || s2.find('.') != std::string::npos) {
+			spush(std::to_string(std::stof(s1) - std::stof(s2)));
+		} else {
+			spush(std::to_string(std::stoll(s1) - std::stoll(s2)));
+		}
+
 	}
 	//std::cout<<"sub was called"<<std::endl;
 }
@@ -110,7 +173,12 @@ mul()
 	if (!is_float(s1) || !is_float(s2)) {
 		std::cerr << "mathematical operation with non-number" << std::endl;
 	} else {
-		spush(std::to_string(std::stof(s1) * std::stof(s2)));
+		if (s1.find('.') != std::string::npos || s2.find('.') != std::string::npos) {
+			spush(std::to_string(std::stof(s1) * std::stof(s2)));
+		} else {
+			spush(std::to_string(std::stoll(s1) * std::stoll(s2)));
+		}
+
 	}
 	//std::cout<<"mul was called"<<std::endl;
 }
@@ -124,7 +192,12 @@ divn()
 	if (!is_float(s1) || !is_float(s2)) {
 		std::cerr << "mathematical operation with non-number" << std::endl;
 	} else {
-		spush(std::to_string(std::stof(s1) / std::stof(s2)));
+		if (s1.find('.') != std::string::npos || s2.find('.') != std::string::npos) {
+			spush(std::to_string(std::stof(s1) / std::stof(s2)));
+		} else {
+			spush(std::to_string(std::stoll(s1) / std::stoll(s2)));
+		}
+
 	}
 	//std::cout<<"div was called"<<std::endl;
 }
@@ -138,7 +211,11 @@ poww()
 	if (!is_float(s1) || !is_float(s2)) {
 		std::cerr << "mathematical operation with non-number" << std::endl;
 	} else {
-		spush(std::to_string(pow(std::stof(s1), std::stof(s2))));
+		if (s1.find('.') != std::string::npos || s2.find('.') != std::string::npos) {
+			spush(std::to_string(pow(std::stof(s1), std::stof(s2))));
+		} else {
+			spush(std::to_string(pow(std::stoll(s1), std::stoll(s2))));
+		}
 	}
 	//std::cout<<"pow was called"<<std::endl;
 }
@@ -156,11 +233,8 @@ swp()
 void
 pr()
 {
-	str s = spop();
-	if (is_quoted(s))
-		s = unquote(s);
-
-	std::cout << s;
+	std::cout << unquote(to_lelstr(spop()));
+	//printf((is_quoted(s)?unquote(s):s).c_str());
 }
 
 void
@@ -168,14 +242,12 @@ sj()
 {
 	str s1 = spop();
 	str s2 = spop();
+	//std::cout << "sj log: " << s1 << s2 << std::endl;
 
-	if (is_quoted(s1)) {
-		s1 = unquote(s1);
-	}
+	s1 = is_quoted(s1) ? unquote(s1) : s1;
+	s2 = is_quoted(s2) ? unquote(s2) : s2;
 
-	if (is_quoted(s2)) {
-		s2 = unquote(s2);
-	}
+	//std::cout << "sj log: " << s1 + s2 << "=" << quote(s1+s2) << std::endl;
 
 	spush(quote(s1 + s2));
 }
@@ -216,4 +288,10 @@ fl()
 	} else {
 		spush(std::to_string((int)std::stof(s)));
 	}
+}
+
+void
+nl()
+{
+	spush("\"\n\"");
 }

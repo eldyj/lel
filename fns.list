@@ -17,3 +17,4 @@ LelTmp::fns["rd"] = rd;
 LelTmp::fns["load"] = load;
 LelTmp::fns["do"] = eval;
 LelTmp::fns["fl"] = fl;
+LelTmp::fns["nl"] = nl;

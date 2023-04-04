@@ -30,7 +30,7 @@ gt()
 		std::cerr << "second argument to gt must be number" << std::endl;
 	}	else {
 		if (s1.find('.') != std::string::npos || s2.find('.') != std::string::npos) {
-			spush(std::to_string(int(std::stof(s1) > std::stof(s2))));
+			spush(std::to_string(int(std::stod(s1) > std::stod(s2))));
 		} else {
 			spush(std::to_string(int(std::stoi(s1) > std::stoi(s2))));
 		}
@@ -49,7 +49,7 @@ lt()
 		std::cerr << "second argument to lt must be number" << std::endl;
 	}	else {
 		if (s1.find('.') != std::string::npos || s2.find('.') != std::string::npos) {
-			spush(std::to_string(int(std::stof(s1) < std::stof(s2))));
+			spush(std::to_string(int(std::stod(s1) < std::stod(s2))));
 		} else {
 			spush(std::to_string(int(std::stoi(s1) > std::stoi(s2))));
 		}
@@ -65,7 +65,7 @@ no()
 		std::cerr << "first argument to no must be number" << std::endl;
 	} else {
 		if (s1.find('.') != std::string::npos) {
-			spush(std::to_string(int(!std::stof(s1))));
+			spush(std::to_string(int(!std::stod(s1))));
 		} else {
 			spush(std::to_string(int(!std::stoi(s1))));
 		}
@@ -78,13 +78,10 @@ gt()
 {
 	str s1 = spop();
 	str s2 = spop();
-	if (!is_float(s1)) {
-		std::cerr << "first argument to gt must be number" << std::endl;
-	} else if (!is_float(s2)) {
-		std::cerr << "second argument to gt must be number" << std::endl;
-	}	else {
-		spush(std::to_string(int(std::stof(s1) > std::stof(s2))));
-	}
+	if (!is_float(s1) || !is_float(s2))
+		T_ERROR("non number argument passed to gt");
+	
+	spush(std::to_string(int(std::stod(s1) > std::stod(s2))));
 	//std::cout<<"gt was called"<<std::endl;
 }
 
@@ -93,13 +90,10 @@ lt()
 {
 	str s1 = spop();
 	str s2 = spop();
-	if (!is_float(s1)) {
-		std::cerr << "first argument to lt must be number" << std::endl;
-	} else if (!is_float(s2)) {
-		std::cerr << "second argument to lt must be number" << std::endl;
-	}	else {
-		spush(std::to_string(int(std::stof(s1) < std::stof(s2))));
-	}
+	if (!is_float(s1) || !is_float(s2))
+		T_ERROR("non number argument passed to lt");
+
+	spush(std::to_string(int(std::stod(s1) < std::stod(s2))));
 	//std::cout<<"lt was called"<<std::endl;
 }
 
@@ -107,11 +101,10 @@ void
 no()
 {
 	str s1 = spop();
-	if (!is_float(s1)) {
-		std::cerr << "first argument to no must be number" << std::endl;
-	} else {
-		spush(std::to_string(int(!std::stof(s1))));
-	}
+	if (!is_float(s1))
+		T_ERROR("non number argument passed to no");
+
+	spush(std::to_string(int(!std::stod(s1))));
 	//std::cout<<"no was called"<<std::endl;
 }
 
@@ -119,11 +112,10 @@ void
 unl()
 {
 	str s1 = spop();
-	if (!is_float(s1)) {
-		std::cerr << "first argument to unl must be number" << std::endl;
-	} else {
-		LelTmp::skip_next = !!std::stof(s1);
-	}
+	if (!is_float(s1))
+		T_ERROR("non number argument passed to unl");
+
+	LelTmp::skip_next = !!std::stod(s1);
 	//std::cout<<"unl was called"<<std::endl;
 }
 
@@ -133,15 +125,13 @@ sum()
 	str s1 = spop();
 	str s2 = spop();
 
-	if (!is_float(s1) || !is_float(s2)) {
-		std::cerr << "mathematical operation with non-number" << std::endl;
-	} else {
-		if (s1.find('.') != std::string::npos || s2.find('.') != std::string::npos) {
-			spush(std::to_string(std::stof(s1) + std::stof(s2)));
-		} else {
-			spush(std::to_string(std::stoll(s1) + std::stoll(s2)));
-		}
-	}
+	if (!is_float(s1) || !is_float(s2))
+		T_ERROR("mathematical operation with non-number");
+
+	if (s1.find('.') != std::string::npos || s2.find('.') != std::string::npos)
+		spush(std::to_string(std::stod(s1) + std::stod(s2)));
+	else
+		spush(i128tos(stoi128(s1) + stoi128(s2)));
 	//std::cout<<"sum was called"<<std::endl;
 }
 
@@ -151,16 +141,13 @@ sub()
 	str s1 = spop();
 	str s2 = spop();
 
-	if (!is_float(s1) || !is_float(s2)) {
-		std::cerr << "mathematical operation with non-number" << std::endl;
-	} else {
-		if (s1.find('.') != std::string::npos || s2.find('.') != std::string::npos) {
-			spush(std::to_string(std::stof(s1) - std::stof(s2)));
-		} else {
-			spush(std::to_string(std::stoll(s1) - std::stoll(s2)));
-		}
+	if (!is_float(s1) || !is_float(s2))
+		T_ERROR("mathematical operation with non-number");
 
-	}
+	if (s1.find('.') != std::string::npos || s2.find('.') != std::string::npos)
+		spush(std::to_string(std::stod(s1) - std::stod(s2)));
+	else
+		spush(i128tos(stoi128(s1) - stoi128(s2)));
 	//std::cout<<"sub was called"<<std::endl;
 }
 
@@ -170,16 +157,13 @@ mul()
 	str s1 = spop();
 	str s2 = spop();
 
-	if (!is_float(s1) || !is_float(s2)) {
-		std::cerr << "mathematical operation with non-number" << std::endl;
-	} else {
-		if (s1.find('.') != std::string::npos || s2.find('.') != std::string::npos) {
-			spush(std::to_string(std::stof(s1) * std::stof(s2)));
-		} else {
-			spush(std::to_string(std::stoll(s1) * std::stoll(s2)));
-		}
+	if (!is_float(s1) || !is_float(s2))
+		T_ERROR("mathematical operation with non-number");
 
-	}
+	if (s1.find('.') != std::string::npos || s2.find('.') != std::string::npos)
+		spush(std::to_string(std::stod(s1) * std::stod(s2)));
+	else
+		spush(i128tos(stoi128(s1) * stoi128(s2)));
 	//std::cout<<"mul was called"<<std::endl;
 }
 
@@ -189,16 +173,13 @@ divn()
 	str s1 = spop();
 	str s2 = spop();
 
-	if (!is_float(s1) || !is_float(s2)) {
-		std::cerr << "mathematical operation with non-number" << std::endl;
-	} else {
-		if (s1.find('.') != std::string::npos || s2.find('.') != std::string::npos) {
-			spush(std::to_string(std::stof(s1) / std::stof(s2)));
-		} else {
-			spush(std::to_string(std::stoll(s1) / std::stoll(s2)));
-		}
+	if (!is_float(s1) || !is_float(s2))
+		T_ERROR("mathematical operation with non-number");
 
-	}
+	if (s1.find('.') != std::string::npos || s2.find('.') != std::string::npos)
+		spush(std::to_string(std::stod(s1) / std::stod(s2)));
+	else
+		spush(i128tos(stoi128(s1) / stoi128(s2)));
 	//std::cout<<"div was called"<<std::endl;
 }
 
@@ -208,15 +189,13 @@ poww()
 	str s1 = spop();
 	str s2 = spop();
 
-	if (!is_float(s1) || !is_float(s2)) {
-		std::cerr << "mathematical operation with non-number" << std::endl;
-	} else {
-		if (s1.find('.') != std::string::npos || s2.find('.') != std::string::npos) {
-			spush(std::to_string(pow(std::stof(s1), std::stof(s2))));
-		} else {
-			spush(std::to_string(pow(std::stoll(s1), std::stoll(s2))));
-		}
-	}
+	if (!is_float(s1) || !is_float(s2))
+		T_ERROR("mathematical operation with non-number");
+
+	if (s1.find('.') != std::string::npos || s2.find('.') != std::string::npos)
+		spush(std::to_string(pow(std::stod(s1), std::stod(s2))));
+	else
+		spush(std::to_string(pow(stoi128(s1), stoi128(s2))));
 	//std::cout<<"pow was called"<<std::endl;
 }
 
@@ -233,23 +212,14 @@ swp()
 void
 pr()
 {
-	std::cout << unquote(to_lelstr(spop()));
+	std::cout << to_cppstr(to_lelstr(spop()));
 	//printf((is_quoted(s)?unquote(s):s).c_str());
 }
 
 void
 sj()
 {
-	str s1 = spop();
-	str s2 = spop();
-	//std::cout << "sj log: " << s1 << s2 << std::endl;
-
-	s1 = is_quoted(s1) ? unquote(s1) : s1;
-	s2 = is_quoted(s2) ? unquote(s2) : s2;
-
-	//std::cout << "sj log: " << s1 + s2 << "=" << quote(s1+s2) << std::endl;
-
-	spush(quote(s1 + s2));
+	spush(lelstr_join(spop(),spop()));
 }
 
 void
@@ -257,41 +227,51 @@ rd()
 {
 	str s;
 	std::cin >> s;
-	spush(s);
+	spush(quote(s));
 }
 
 void
 load()
 {
-	str s = unquote(spop());
-	std::cout << s << std::endl;
-	load_file(s);
+	str s = spop();
+	if (!is_quoted(s))
+		T_ERROR("non string argument passed to load");
+
+	load_file(to_cppstr(s));
 }
 
 void
 eval()
 {
 	str s = spop();
-	if (!is_quoted(s)) {
-		std::cerr << "non string argument passed to eval" << std::endl;
-	} else {
-		eval_string(unquote(s));
-	}
+	if (!is_quoted(s))
+		T_ERROR("non string argument passed to eval");
+
+	eval_string(to_cppstr(s));
 }
 
 void
 fl()
 {
 	str s = spop();
-	if (!is_float(s)) {
-		std::cerr << "non number passed to fl" << std::endl;
-	} else {
-		spush(std::to_string((int)std::stof(s)));
-	}
+	if (!is_float(s))
+		T_ERROR("non number passed to fl");
+
+	spush(std::to_string((int)std::stod(s)));
 }
 
 void
 nl()
 {
 	spush("\"\n\"");
+}
+
+void
+use()
+{
+	str s = spop();
+	if (!is_quoted(s))
+		T_ERROR("non string argument passed to use");
+
+	use_file(to_cppstr(s));
 }

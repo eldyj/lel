@@ -6,7 +6,11 @@
 #include<functional>
 #include<cmath>
 #include<fstream>
-
+#include"headers/int128.hpp"
+#include"headers/dir.hpp"
+#define A_ERROR(category, message) {std::cerr << category << "Error: " << message << std::endl;exit(1);}
+#define T_ERROR(message) A_ERROR("Type",message)
+#define S_ERROR(message) A_ERROR("Stack",message)
 typedef std::vector<std::string> str_vec;
 typedef std::string str;
 
@@ -15,6 +19,8 @@ void rm();
 namespace LelTmp {
 	str_vec stack = {};
 	std::map<str,std::function<void()>> fns;
+	str include_dir;
+	str current_dir;
 	bool comment = false;
 	bool skip_next = false;
 	bool get_macro_name = false;
@@ -25,12 +31,19 @@ namespace LelTmp {
 void
 spush(const str& s)
 {
-	LelTmp::stack.push_back(s);
+	try {
+		LelTmp::stack.push_back(s);
+	} catch (std::bad_alloc) {
+		S_ERROR("stack overflow");
+	}
 }
 
 const str&
 spop(void)
 {
+	if (LelTmp::stack.size() == 0) {
+		S_ERROR("stack underflow");
+	}
 	str& s = LelTmp::stack.back();
 	rm();
 	return s;
@@ -42,7 +55,7 @@ is_float(const str s) {
 		std::stof(s);
 		return true;
 	} catch (std::invalid_argument e) {
-		return false;
+		return is_int128(s);
 	}
 }
 
@@ -72,6 +85,18 @@ str
 to_lelstr(const str& s)
 {
 	return is_quoted(s) ? s : quote(s);
+}
+
+str
+to_cppstr(const str& s)
+{
+	return is_quoted(s) ? unquote(s) : s;
+}
+
+str
+lelstr_join(const str& s1, const str& s2)
+{
+	return to_lelstr(to_cppstr(s1) + to_cppstr(s2));
 }
 
 bool
@@ -230,15 +255,22 @@ load_file(str s)
 	eval_string(content);
 }
 
+void
+use_file(str s)
+{
+	load_file(LelTmp::include_dir + s + ".lel");
+}
+
 #include"fns.cpp"
 
 int
 main(int argc, char* argv[])
 {
+	LelTmp::include_dir = dirname(std::string(argv[0]))+"/std/";
 #include"fns.list"
-	load_file("std/stdop.lel");
-	load_file("std/stdfn.lel");
-	load_file("std/stdmath.lel");
+	use_file("stdop");
+	use_file("stdfn");
+	use_file("stdmath");
 	load_file(std::string(argv[1]));
 	return 0;
 }

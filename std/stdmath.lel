@@ -1,13 +1,10 @@
-/* loops for factorials and triangular */
+/* factorial */
 = fac ~+ -- ~+ 1 > ? fac * .
+/* triangular */
 = tri ~+ -- ~+ 1 > ? tri + .
+/* exponential factorial */
 = efc ~+ -- ~+ 1 > ? efc ^ .
-
-/* 
-= fac 1 <> __fac__ .
-= tri 0 <> __tri__ .
-= efc 1 <> __efc__ .
-*/
+/* double factorial */
 = dfc fac fac .
 
 /* linking this functions to operators */
@@ -20,8 +17,6 @@
 = grf 1 ./ ^ .
 /* get square root */
 = sq 2 grf .
-/* floor operator */
-= _ fl .
 
 /* used for conditions to negate something */
 = __neg__ 0 -- * .

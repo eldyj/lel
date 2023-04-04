@@ -1,4 +1,3 @@
 = factorial_of ~+ .> "! = " .> *! ./> .
-= factorials ~+ -- ~+ 1 > ? factorials factorial_of .
-
-16 factorials
+= factorials ~+ -- ~+ 2 > ? factorials factorial_of .
+18 factorials

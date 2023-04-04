@@ -20,3 +20,5 @@ LelTmp::fns["fl"] = fl;
 LelTmp::fns["nl"] = nl;
 LelTmp::fns["use"] = use;
 LelTmp::fns["exit"] = done;
+LelTmp::fns["ge"] = ge;
+LelTmp::fns["ga"] = ga;

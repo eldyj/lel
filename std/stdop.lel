@@ -8,7 +8,7 @@
 = ./ div .
 = .^ pow .
 
-/* math operators whith arguments swap (where needed)*/
+/* math operators whith arguments swap (where needed) */
 = + .+ .
 = ++ 1 + .
 = - <> .- .

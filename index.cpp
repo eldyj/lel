@@ -23,6 +23,8 @@ int
 main(int argc, char** argv)
 {
 	LelTmp::include_dir = dirname(std::string(argv[0]))+"/std/";
+	LelTmp::argv = argv+1;
+	LelTmp::argc = argc-1;
 #include"headers/fnlist.hpp"
 	use_file("stdop");
 	use_file("stdfn");

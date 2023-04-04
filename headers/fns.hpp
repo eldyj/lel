@@ -237,4 +237,37 @@ done()
 	exit(std::stoi(s));
 }
 
+void
+ge()
+{
+	std::string s = spop();
+	if (!is_quoted(s))
+		T_ERROR("non string argument passed to ge");
+	
+	spush(std::string(std::getenv(to_cppstr(s).c_str())));
+}
+
+void
+ga()
+{
+	std::string s = spop();
+
+	if (!is_float(s))
+		T_ERROR("non number argument passed to ga");
+
+	if (non_int(s))
+		T_ERROR("non int argument passed to ga");
+
+	long long n = stoi128(s);
+
+	if (n < 0)
+		V_ERROR("negative int passed to ga");
+
+	if (n >= LelTmp::argc)
+		V_ERROR("index too large for ga");
+
+	spush(LelTmp::argv[n]);
+}
+
 #undef stoi128
+//#undef i128tos

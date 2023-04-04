@@ -8,4 +8,6 @@ namespace LelTmp {
 	bool get_macro_name = false;
 	std::string current_macro = "";
 	std::map<std::string,std::string> macros;
+	char **argv;
+	int argc;
 }

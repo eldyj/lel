@@ -20,3 +20,5 @@ void fl();
 void nl();
 void use();
 void done();
+void ge();
+void ga();

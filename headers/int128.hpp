@@ -1,6 +1,8 @@
 typedef __int128_t int128_t;
 
-std::string i128tos(int128_t n) {
+std::string
+i128tos(int128_t n)
+{
   if (n == 0)
     return "0";
     
@@ -23,7 +25,9 @@ std::string i128tos(int128_t n) {
 	//return std::to_string((long long)n);
 }
 
-int128_t stoi128(const std::string& s) {
+int128_t
+stoi128(const std::string& s)
+{
   if (s.empty())
     return 0;
     
@@ -44,7 +48,9 @@ int128_t stoi128(const std::string& s) {
 	//return (int128_t)std::stoll(s);
 }
 
-bool is_int128(const std::string& s) {
+bool
+is_int128(const std::string& s)
+{
   if (s.empty())
     return false;
     
@@ -59,7 +65,7 @@ bool is_int128(const std::string& s) {
   if (i == s.length())
     return false;
     
-  for (; i < s.length(); i++) {
+  for (; i < s.length(); i++)
     if (!isdigit(s[i]))
       return false;
     

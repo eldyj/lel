@@ -19,60 +19,6 @@ eq()
 	//std::cout<<"eq was called"<<std::endl;
 }
 
-/*void
-gt()
-{
-	str s1 = spop();
-	str s2 = spop();
-	if (!is_float(s1)) {
-		std::cerr << "first argument to gt must be number" << std::endl;
-	} else if (!is_float(s2)) {
-		std::cerr << "second argument to gt must be number" << std::endl;
-	}	else {
-		if (s1.find('.') != std::string::npos || s2.find('.') != std::string::npos) {
-			spush(std::to_string(int(std::stod(s1) > std::stod(s2))));
-		} else {
-			spush(std::to_string(int(std::stoi(s1) > std::stoi(s2))));
-		}
-	}
-	//std::cout<<"gt was called"<<std::endl;
-}
-
-void
-lt()
-{
-	str s1 = spop();
-	str s2 = spop();
-	if (!is_float(s1)) {
-		std::cerr << "first argument to lt must be number" << std::endl;
-	} else if (!is_float(s2)) {
-		std::cerr << "second argument to lt must be number" << std::endl;
-	}	else {
-		if (s1.find('.') != std::string::npos || s2.find('.') != std::string::npos) {
-			spush(std::to_string(int(std::stod(s1) < std::stod(s2))));
-		} else {
-			spush(std::to_string(int(std::stoi(s1) > std::stoi(s2))));
-		}
-	}
-	//std::cout<<"lt was called"<<std::endl;
-}
-
-void
-no()
-{
-	str s1 = spop();
-	if (!is_float(s1)) {
-		std::cerr << "first argument to no must be number" << std::endl;
-	} else {
-		if (s1.find('.') != std::string::npos) {
-			spush(std::to_string(int(!std::stod(s1))));
-		} else {
-			spush(std::to_string(int(!std::stoi(s1))));
-		}
-	}
-	//std::cout<<"no was called"<<std::endl;
-}*/
-
 void
 gt()
 {
@@ -80,8 +26,11 @@ gt()
 	str s2 = spop();
 	if (!is_float(s1) || !is_float(s2))
 		T_ERROR("non number argument passed to gt");
-	
-	spush(std::to_string(int(std::stod(s1) > std::stod(s2))));
+
+	if (non_int(s1) || non_int(s2))
+		spush(std::to_string(int(std::stod(s1) > std::stod(s2))));
+	else
+		spush(std::to_string(int(stoi128(s1) > stoi(s2))));
 	//std::cout<<"gt was called"<<std::endl;
 }
 
@@ -93,7 +42,10 @@ lt()
 	if (!is_float(s1) || !is_float(s2))
 		T_ERROR("non number argument passed to lt");
 
-	spush(std::to_string(int(std::stod(s1) < std::stod(s2))));
+	if (non_int(s1) || non_int(s2))
+		spush(std::to_string(int(std::stod(s1) < std::stod(s2))));
+	else
+		spush(std::to_string(int(stoi128(s1) < stoi128(s2))));
 	//std::cout<<"lt was called"<<std::endl;
 }
 
@@ -128,7 +80,7 @@ sum()
 	if (!is_float(s1) || !is_float(s2))
 		T_ERROR("mathematical operation with non-number");
 
-	if (s1.find('.') != std::string::npos || s2.find('.') != std::string::npos)
+	if (non_int(s1) || non_int(s2))
 		spush(std::to_string(std::stod(s1) + std::stod(s2)));
 	else
 		spush(i128tos(stoi128(s1) + stoi128(s2)));
@@ -144,7 +96,7 @@ sub()
 	if (!is_float(s1) || !is_float(s2))
 		T_ERROR("mathematical operation with non-number");
 
-	if (s1.find('.') != std::string::npos || s2.find('.') != std::string::npos)
+	if (non_int(s1) || non_int(s2))
 		spush(std::to_string(std::stod(s1) - std::stod(s2)));
 	else
 		spush(i128tos(stoi128(s1) - stoi128(s2)));
@@ -160,7 +112,7 @@ mul()
 	if (!is_float(s1) || !is_float(s2))
 		T_ERROR("mathematical operation with non-number");
 
-	if (s1.find('.') != std::string::npos || s2.find('.') != std::string::npos)
+	if (non_int(s1) || non_int(s2))
 		spush(std::to_string(std::stod(s1) * std::stod(s2)));
 	else
 		spush(i128tos(stoi128(s1) * stoi128(s2)));
@@ -176,7 +128,7 @@ divn()
 	if (!is_float(s1) || !is_float(s2))
 		T_ERROR("mathematical operation with non-number");
 
-	if (s1.find('.') != std::string::npos || s2.find('.') != std::string::npos)
+	if (non_int(s1) || non_int(s2))
 		spush(std::to_string(std::stod(s1) / std::stod(s2)));
 	else
 		spush(i128tos(stoi128(s1) / stoi128(s2)));
@@ -192,7 +144,7 @@ poww()
 	if (!is_float(s1) || !is_float(s2))
 		T_ERROR("mathematical operation with non-number");
 
-	if (s1.find('.') != std::string::npos || s2.find('.') != std::string::npos)
+	if (non_int(s1) || non_int(s2))
 		spush(std::to_string(pow(std::stod(s1), std::stod(s2))));
 	else
 		spush(std::to_string(pow(stoi128(s1), stoi128(s2))));

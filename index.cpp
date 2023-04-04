@@ -50,13 +50,18 @@ spop(void)
 }
 
 bool
-is_float(const str s) {
+is_float(const str& s) {
 	try {
 		std::stof(s);
 		return true;
 	} catch (std::invalid_argument e) {
 		return is_int128(s);
 	}
+}
+
+bool
+non_int(const str& s) {
+	return s.find('.') != std::string::npos;
 }
 
 bool

@@ -4,7 +4,7 @@ is_float(const std::string& s) {
 		std::stof(s);
 		return true;
 	} catch (std::invalid_argument e) {
-		return is_int128(s);
+		return false;//is_int128(s);
 	}
 }
 

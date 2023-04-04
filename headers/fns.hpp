@@ -1,3 +1,6 @@
+#define stoi128(s) std::stoll(s)
+#define i128tos(s) std::to_string(s)
+
 void
 dup()
 {
@@ -135,8 +138,15 @@ poww()
 
 	if (non_int(s1) || non_int(s2))
 		spush(std::to_string(pow(std::stod(s1), std::stod(s2))));
-	else
-		spush(std::to_string(pow(stoi128(s1), stoi128(s2))));
+	else {
+		long long s2i = stoi128(s2);
+		double r = powl(stoi128(s1),s2i);
+
+		if (s2i < 0) 
+			spush(std::to_string(r));
+		else
+			spush(std::to_string((long long) r));
+	}
 }
 
 void
@@ -151,7 +161,8 @@ swp()
 void
 pr()
 {
-	std::cout << to_cppstr(to_lelstr(spop()));
+	//std::cout << to_cppstr(to_lelstr(spop()));
+	fputs(to_cppstr(to_lelstr(spop())).c_str(), stdout);
 }
 
 void
@@ -225,3 +236,5 @@ done()
 
 	exit(std::stoi(s));
 }
+
+#undef stoi128

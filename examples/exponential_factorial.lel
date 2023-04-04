@@ -1,0 +1,2 @@
+= exponential_factorials ~+ -- ~+ 1 > ? exponential_factorials ^! ./> .
+5 exponential_factorials

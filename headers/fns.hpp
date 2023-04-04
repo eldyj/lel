@@ -213,3 +213,15 @@ use()
 
 	use_file(to_cppstr(s));
 }
+
+void
+done()
+{
+	std::string s = spop();
+	if (!is_float(s))
+		T_ERROR("non number argument passed to exit")
+	if (!non_int(s))
+		T_ERROR("non int passed to exit");
+
+	exit(std::stoi(s));
+}

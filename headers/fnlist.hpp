@@ -19,3 +19,4 @@ LelTmp::fns["do"] = eval;
 LelTmp::fns["fl"] = fl;
 LelTmp::fns["nl"] = nl;
 LelTmp::fns["use"] = use;
+LelTmp::fns["exit"] = done;

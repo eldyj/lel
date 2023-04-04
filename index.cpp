@@ -11,6 +11,7 @@
 #define A_ERROR(category, message) {std::cerr << category << "Error: " << message << std::endl;exit(1);}
 #define T_ERROR(message) A_ERROR("Type",message)
 #define S_ERROR(message) A_ERROR("Stack",message)
+#define V_ERROR(message) A_ERROR("Value",message)
 typedef std::vector<std::string> str_vec;
 typedef std::string str;
 
@@ -198,55 +199,16 @@ eval_op(const str& op)
 		return;
 	}
 
-	std::cerr << "wtf is " << op << "?" << std::endl;
-#if 0
-	if (op == "*/")
-		LelTmp::comment = false;
-	else if (LelTmp::comment || LelTmp::skip_next)
-		LelTmp::skip_next = false;
-	else if (op == "/*")
-		LelTmp::comment = true;
-	else if (op == "=") {
-		std::cout << "macro start" << std::endl;
-		LelTmp::get_macro_name = true;
-	}
-	else if (op == ".") {
-		std::cout << LelTmp::macros[LelTmp::current_macro] << std::endl;
-		std::cout << "endmacro " << LelTmp::current_macro << std::endl; 
-		LelTmp::current_macro = "";
-	}
-	else if (LelTmp::current_macro != "") {
-		LelTmp::macros[LelTmp::current_macro] += ((LelTmp::macros[LelTmp::current_macro] == "") ?  "" : " ") + op;
-	}
-	else if (macros_exists(op)) {
-		str s = LelTmp::macros[op];
-		std::cout << "macro " << op << ": " << s << std::endl;
-		eval_string(s);
-	}
-	else if (is_float(op) || is_quoted(op))
-		LelTmp::stack.push_back(op);
-	else if (LelTmp::get_macro_name) {
-		LelTmp::current_macro = op;
-		LelTmp::macros[op] = "";
-	}
-	else if (fn_exists(op)) {
-		LelTmp::fns[op]();
-	}
-	else {
-		std::cerr << "wtf is " << op << "?" << std::endl;
-	}
-#endif
+	V_ERROR("wtf is `" << op << "`?");
 }
 
 void
 eval_string(const str& s)
 {
-	//std::cout << "eval-str log: " << s << std::endl;
 	str_vec v = split(s);
-	for (const str& op: v) {
-		//std::cout << "eval-op log: " << op << std::endl;
+
+	for (const str& op: v)
 		eval_op(op);
-	}
 }
 
 void
@@ -254,7 +216,7 @@ load_file(str s)
 {
 	std::ifstream file(s);
 	if (!file)
-		return;
+		V_ERROR("file '" << s << "' not exists");
 
 	std::string content((std::istreambuf_iterator<char>(file)), std::istreambuf_iterator<char>());
 	eval_string(content);
@@ -272,7 +234,7 @@ int
 main(int argc, char* argv[])
 {
 	LelTmp::include_dir = dirname(std::string(argv[0]))+"/std/";
-#include"fns.list"
+#include"fnlist.cpp"
 	use_file("stdop");
 	use_file("stdfn");
 	use_file("stdmath");

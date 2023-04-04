@@ -20,15 +20,17 @@
 
 /* used for conditions to negate something */
 = __neg__ 0 -- * .
+
+/* negate and abs */
 = neg ~+ > 0 ? __neg__ .
 = pos ~+ < 0 ? __neg__ .
 
-/* alias asb to pos */
+/* alias abs to pos */
 = abs pos .
 
 /* linking abs and neg to operators */
 = =+ abs .
 = =- neg .
 
-/* get bth fibanacci number */
+/* get nth fibanacci number */
 = fib 1.6180339887498949 .^ 0.44721359549995682 * _ .

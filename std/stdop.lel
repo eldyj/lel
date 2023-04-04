@@ -1,11 +1,14 @@
+/* swao operator */
 = <> swp .
 
+/* default math operators */
 = .+ sum .
 = .- sub .
 = .* mul .
 = ./ div .
 = .^ pow .
 
+/* math operators whith arguments swap (where needed)*/
 = + .+ .
 = ++ 1 + .
 = - <> .- .
@@ -14,25 +17,34 @@
 = / <> ./ .
 /* = % <> mod . */
 = ^ <> .^ .
+
+/* floor operator */
 = _ fl .
 
+/* string operators */
 = <+ sj .
 = >+ <> <+ .
 = <+> <+ >+ .
 = +> " " <+> .
 = +< <> " " <+> .
 
+/* load file and use `std file` operators */
 = << load .
 = <| use .
+
+/* stack operators */
 = ~+ dup .
 = ~- rm  .
 
+/* compare operators */
 = == eq .
 = < gt .
 = >= < no .
 = > lt .
 = <= > no .
 = != == no .
+
+/* confitional function exec operators */
 = ?! unl .
 = ? no ?! .
 = if ? .

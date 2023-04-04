@@ -1,9 +1,15 @@
+/* print */
 = .> pr .
+/* read user input */
 = .< rd .
-/* = .<< rf .
-= .>> wf . */
+/* = .<< rf . */
+/* = .>> wf . */
+/* print line */
 = ./> .> nl .> .
 /* = ./> nl >+ .> . */
+/* prompt operator */
 = >.< .> .< .
+/* getenv */
 = <$ ge .
+/* get argv */
 = $> ga .

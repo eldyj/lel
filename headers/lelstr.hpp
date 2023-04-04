@@ -16,7 +16,6 @@ unquote(const std::string& s)
 	std::string r = s;
 	r.erase(r.length()-1,1);
 	r.erase(0,1);
-	//std::cout << "unquote log: '" << s << "' '" << r << "'" << std::endl;
 	return r;
 }
 

@@ -41,8 +41,7 @@ lt()
 	if (non_int(s1) || non_int(s2))
 		spush(std::to_string(int(std::stod(s1) < std::stod(s2))));
 	else
-		spush(std::to_string(int(stoi128(s1) < stoi128(s2))));
-	//std::cout<<"lt was called"<<std::endl;
+		spush(std::to_string(int(stoi128(s1) < stoi128(s2))));;
 }
 
 void
@@ -53,7 +52,6 @@ no()
 		T_ERROR("non number argument passed to no");
 
 	spush(std::to_string(int(!std::stod(s1))));
-	//std::cout<<"no was called"<<std::endl;
 }
 
 void
@@ -64,7 +62,6 @@ unl()
 		T_ERROR("non number argument passed to unl");
 
 	LelTmp::skip_next = !!std::stod(s1);
-	//std::cout<<"unl was called"<<std::endl;
 }
 
 void
@@ -80,7 +77,6 @@ sum()
 		spush(std::to_string(std::stod(s1) + std::stod(s2)));
 	else
 		spush(i128tos(stoi128(s1) + stoi128(s2)));
-	//std::cout<<"sum was called"<<std::endl;
 }
 
 void
@@ -96,7 +92,6 @@ sub()
 		spush(std::to_string(std::stod(s1) - std::stod(s2)));
 	else
 		spush(i128tos(stoi128(s1) - stoi128(s2)));
-	//std::cout<<"sub was called"<<std::endl;
 }
 
 void
@@ -112,7 +107,6 @@ mul()
 		spush(std::to_string(std::stod(s1) * std::stod(s2)));
 	else
 		spush(i128tos(stoi128(s1) * stoi128(s2)));
-	//std::cout<<"mul was called"<<std::endl;
 }
 
 void
@@ -128,7 +122,6 @@ divn()
 		spush(std::to_string(std::stod(s1) / std::stod(s2)));
 	else
 		spush(i128tos(stoi128(s1) / stoi128(s2)));
-	//std::cout<<"div was called"<<std::endl;
 }
 
 void
@@ -144,7 +137,6 @@ poww()
 		spush(std::to_string(pow(std::stod(s1), std::stod(s2))));
 	else
 		spush(std::to_string(pow(stoi128(s1), stoi128(s2))));
-	//std::cout<<"pow was called"<<std::endl;
 }
 
 void
@@ -154,14 +146,12 @@ swp()
 	std::string s2 = spop();
 	spush(s1);
 	spush(s2);
-	//std::cout<<"swp was called"<<std::endl;
 }
 
 void
 pr()
 {
 	std::cout << to_cppstr(to_lelstr(spop()));
-	//printf((is_quoted(s)?unquote(s):s).c_str());
 }
 
 void

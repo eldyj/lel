@@ -22,7 +22,6 @@ i128tos(int128_t n)
     
 	reverse(s.begin(), s.end());
 	return s;
-	//return std::to_string((long long)n);
 }
 
 int128_t
@@ -45,7 +44,6 @@ stoi128(const std::string& s)
     n = -n;
     
   return n;
-	//return (int128_t)std::stoll(s);
 }
 
 bool

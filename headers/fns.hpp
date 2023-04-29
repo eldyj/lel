@@ -244,7 +244,7 @@ ge()
 	if (!is_quoted(s))
 		T_ERROR("non string argument passed to ge");
 	
-	spush(std::string(std::getenv(to_cppstr(s).c_str())));
+	spush(quote(std::string(std::getenv(to_cppstr(s).c_str()))));
 }
 
 void
@@ -266,7 +266,31 @@ ga()
 	if (n >= LelTmp::argc)
 		V_ERROR("index too large for ga");
 
-	spush(LelTmp::argv[n]);
+	spush(quote(std::string(LelTmp::argv[n])));
+}
+
+void
+rf()
+{
+	std::string s = spop();
+	std::cout << "rflog: " << s << std::endl;
+
+	if (!is_quoted(s))
+		T_ERROR("non string argument passed to rf");
+
+	spush(quote(read_file(to_cppstr(s))));
+}
+
+void
+wf()
+{
+	std::string s1 = spop();
+	std::string s2 = spop();
+
+	if (!is_quoted(s1) || !is_quoted(s2))
+		T_ERROR("non string argument passed to wf");
+
+	write_file(to_cppstr(s1),to_cppstr(s2));
 }
 
 #undef stoi128

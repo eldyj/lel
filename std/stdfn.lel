@@ -2,14 +2,15 @@
 = .> pr .
 /* read user input */
 = .< rd .
-/* = .<< rf . */
-/* = .>> wf . */
+/* read file */
+= .<< rf .
+/* write file */
+= .>> wf .
 /* print line */
 = ./> .> nl .> .
-/* = ./> nl >+ .> . */
 /* prompt operator */
 = >.< .> .< .
-/* getenv */
+/* get env */
 = <$ ge .
 /* get argv */
 = $> ga .

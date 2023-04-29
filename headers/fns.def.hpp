@@ -22,3 +22,5 @@ void use();
 void done();
 void ge();
 void ga();
+void rf();
+void wf();

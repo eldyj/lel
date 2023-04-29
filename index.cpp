@@ -1,6 +1,6 @@
 #include<iostream>
 #include<vector>
-#include<regex>
+//#include<regex>
 #include<algorithm>
 #include<map>
 #include<functional>
@@ -16,6 +16,7 @@
 #include"headers/lelstr.hpp"
 #include"headers/lelparse.hpp"
 #include"headers/leleval.hpp"
+#include"headers/file.hpp"
 #include"headers/lelinclude.hpp"
 #include"headers/fns.hpp"
 
